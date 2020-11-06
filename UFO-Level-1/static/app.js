@@ -4,8 +4,8 @@ var tableData = data;
 // Use D3 to select the table body 
 var tbody = d3.select("tbody");
 
-// // Use d3 to update each cell's text with
-// // Ufo Sightings values (date/time, city, country, shape, and comment)
+// Use d3 to update each cell's text with
+// Ufo Sightings values (date/time, city, country, shape, and comment)
 data.forEach(function(UfoSightings) {
   console.log(UfoSightings);
   var row = tbody.append("tr");
@@ -18,24 +18,33 @@ data.forEach(function(UfoSightings) {
   });
 });
 
-// Getting a reference to the button on the page with the id property set to `filter-btn` and 'form-control
-
+// Getting a reference to the button on the page with the id property set to `filter-btn` 
 var button = d3.select("#filter-btn");
-var input = d3.select('.form-control')
-
 
 // Use D3 `.on` to attach a click handler to use it to filter upon clicking a button
 button.on('click', function(){
-    var dateInput = d3.select('#datetime').property("value");
-    var filteredData = tableData.filter(item => item.datetime === dateInput);
-    console.log("dateInput",dateInput)
-    console.log(this)
-    console.log(filteredData.length)
-});
+      // Select the datetime input 
+      var input = d3.select("#datetime");
+      //Get the value of the datetime input
+      var dateInput = input.property("value");
+      console.log("input:", dateInput);
+      
+      var filteredData = tableData.filter(item => item.datetime === dateInput);
+      console.log(this)
+      console.log(filteredData.length)
+      
+      // Clear any rows and cells from prior 
+      tbody.html("");
 
+      filteredData.forEach((UfoSightings) => {
+        var row = tbody.append("tr");
+        Object.entries(UfoSightings).forEach(([key, value]) => {
+          var cell = row.append("td");
+          cell.text(value);
+          });
+        });
+ });
 
-// clear the existing output
-input.protperty("value", "")
 
 
 
